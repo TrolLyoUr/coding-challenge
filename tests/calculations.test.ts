@@ -128,4 +128,21 @@ describe("calculations", () => {
       );
     });
   });
+
+  describe("calculateWorkingCapitalRatio", () => {
+    it("should calculate working capital ratio correctly", () => {
+      const result = calculateWorkingCapitalRatio(mockData);
+      const assets = 2000 - 500; // 1500
+      const liabilities = 1000 - 200; // 800
+      expect(result).toBeCloseTo((assets / liabilities) * 100, 1); // (1500 / 800) * 100
+    });
+
+    it("should throw an error when liabilities are 0", () => {
+      expect(() => {
+        calculateWorkingCapitalRatio(mockDataWithZeroLiabilities);
+      }).toThrow(
+        "Working Capital Ratio calculation is undefined: liabilities are zero."
+      );
+    });
+  });
 });
