@@ -111,4 +111,21 @@ describe("calculations", () => {
       );
     });
   });
+
+  describe("calculateNetProfitMargin", () => {
+    it("should calculate net profit margin correctly", () => {
+      const revenue = calculateRevenue(mockData);
+      const expenses = calculateExpenses(mockData);
+      const result = calculateNetProfitMargin(revenue, expenses);
+      expect(result).toBeCloseTo(80.0, 1); // ((1500 - 300) / 1500) * 100
+    });
+
+    it("should throw an error when revenue is 0", () => {
+      expect(() => {
+        calculateNetProfitMargin(0, 300);
+      }).toThrow(
+        "Net Profit Margin calculation is undefined: revenue is zero."
+      );
+    });
+  });
 });
