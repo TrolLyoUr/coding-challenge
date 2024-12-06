@@ -12,3 +12,7 @@ function sumByCondition(
 export function calculateRevenue(data: DataItem[]): number {
   return sumByCondition(data, (item) => item.account_category === "revenue");
 }
+
+export function calculateExpenses(data: DataItem[]): number {
+  return sumByCondition(data, (item) => item.account_category === "expense");
+}
