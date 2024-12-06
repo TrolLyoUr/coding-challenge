@@ -16,3 +16,21 @@ export function calculateRevenue(data: DataItem[]): number {
 export function calculateExpenses(data: DataItem[]): number {
   return sumByCondition(data, (item) => item.account_category === "expense");
 }
+
+export function calculateGrossProfitMargin(
+  data: DataItem[],
+  revenue: number
+): number {
+  // Assume revenue can be zero if no data present.
+  // Return 0 if revenue = 0.
+
+  if (revenue === 0) {
+    return 0;
+  }
+
+  const salesTotal = sumByCondition(
+    data,
+    (item) => item.account_type === "sales" && item.value_type === "debit"
+  );
+  return (salesTotal / revenue) * 100;
+}
