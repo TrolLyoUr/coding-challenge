@@ -47,3 +47,54 @@ export function calculateNetProfitMargin(
 
   return ((revenue - expenses) / revenue) * 100;
 }
+
+export function calculateWorkingCapitalRatio(data: DataItem[]): number {
+  const validAssetTypes = ["current", "bank", "current_accounts_receivable"];
+  const validLiabilityTypes = ["current", "current_accounts_payable"];
+
+  // Assets
+  const assetDebits = sumByCondition(
+    data,
+    (item) =>
+      item.account_category === "assets" &&
+      item.value_type === "debit" &&
+      validAssetTypes.includes(item.account_type)
+  );
+
+  const assetCredits = sumByCondition(
+    data,
+    (item) =>
+      item.account_category === "assets" &&
+      item.value_type === "credit" &&
+      validAssetTypes.includes(item.account_type)
+  );
+
+  const assets = assetDebits - assetCredits;
+
+  // Liabilities
+  const liabilityCredits = sumByCondition(
+    data,
+    (item) =>
+      item.account_category === "liability" &&
+      item.value_type === "credit" &&
+      validLiabilityTypes.includes(item.account_type)
+  );
+
+  const liabilityDebits = sumByCondition(
+    data,
+    (item) =>
+      item.account_category === "liability" &&
+      item.value_type === "debit" &&
+      validLiabilityTypes.includes(item.account_type)
+  );
+
+  const liabilities = liabilityCredits - liabilityDebits;
+
+  // If liabilities end up being zero after validation and data processing,
+  // return 0 to avoid division by zero.
+  if (liabilities === 0) {
+    return 0;
+  }
+
+  return (assets / liabilities) * 100;
+}
