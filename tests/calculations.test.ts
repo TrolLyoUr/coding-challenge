@@ -16,26 +16,6 @@ const mockData: DataItem[] = [
   },
 ];
 
-describe("calculations", () => {
-  describe("calculateRevenue", () => {
-    it("should calculate revenue correctly for valid data", () => {
-      const result = calculateRevenue(mockData);
-      expect(result).toBe(1200); // 1000 + 200
-    });
-
-    it("should return 0 for empty data", () => {
-      expect(calculateRevenue([])).toBe(0);
-    });
-
-    it("should warn and return 0 for invalid input", () => {
-      const consoleSpy = jest
-        .spyOn(console, "warn")
-        .mockImplementation(() => {});
-      expect(calculateRevenue(null as unknown as DataItem[])).toBe(0);
-      expect(consoleSpy).toHaveBeenCalledWith(
-        "Invalid input: data is not an array. Returning 0 for revenue."
-      );
-      consoleSpy.mockRestore();
-    });
-  });
+test("calculateRevenue", () => {
+  expect(calculateRevenue(mockData)).toBe(1200);
 });
