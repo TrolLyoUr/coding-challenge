@@ -34,3 +34,16 @@ export function calculateGrossProfitMargin(
   );
   return (salesTotal / revenue) * 100;
 }
+
+export function calculateNetProfitMargin(
+  revenue: number,
+  expenses: number
+): number {
+  // Assume revenue can be zero if no data present.
+  // Return 0 if revenue = 0.
+  if (revenue === 0) {
+    return 0;
+  }
+
+  return ((revenue - expenses) / revenue) * 100;
+}
