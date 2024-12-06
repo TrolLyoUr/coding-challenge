@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Test suite for financial calculations
+ * Tests all accounting metric calculations with various scenarios including
+ * edge cases and error conditions
+ */
+
 import {
   calculateRevenue,
   calculateExpenses,
@@ -7,6 +13,15 @@ import {
 } from "../src/calculations";
 import { DataItem } from "../types";
 
+/**
+ * Mock financial data for testing
+ * Includes various types of financial entries:
+ * - Revenue entries (sales and other)
+ * - Expense entries
+ * - Asset entries (current and bank)
+ * - Liability entries
+ * Each entry includes both debit and credit transactions
+ */
 const mockData: DataItem[] = [
   {
     account_category: "revenue",
@@ -52,6 +67,10 @@ const mockData: DataItem[] = [
   },
 ];
 
+/**
+ * Mock data representing a scenario with no revenue entries
+ * Used for testing edge cases where revenue is zero
+ */
 const mockDataWithZeroRevenue: DataItem[] = [
   {
     account_category: "expense",
@@ -61,6 +80,10 @@ const mockDataWithZeroRevenue: DataItem[] = [
   },
 ];
 
+/**
+ * Mock data representing a scenario with no liability entries
+ * Used for testing edge cases where liabilities are zero
+ */
 const mockDataWithZeroLiabilities: DataItem[] = [
   {
     account_category: "assets",
@@ -77,6 +100,12 @@ const mockDataWithZeroLiabilities: DataItem[] = [
 ];
 
 describe("calculations", () => {
+  /**
+   * Tests for revenue calculation
+   * Verifies:
+   * - Correct summation of revenue entries
+   * - Handling of scenarios with no revenue
+   */
   describe("calculateRevenue", () => {
     it("should calculate total revenue correctly", () => {
       const result = calculateRevenue(mockData);
@@ -89,6 +118,10 @@ describe("calculations", () => {
     });
   });
 
+  /**
+   * Tests for expense calculation
+   * Verifies correct summation of expense entries
+   */
   describe("calculateExpenses", () => {
     it("should calculate total expenses correctly", () => {
       const result = calculateExpenses(mockData);
@@ -96,6 +129,13 @@ describe("calculations", () => {
     });
   });
 
+  /**
+   * Tests for gross profit margin calculation
+   * Verifies:
+   * - Correct calculation of the margin percentage
+   * - Error handling for zero revenue
+   * Formula tested: (Sales Revenue / Total Revenue) * 100
+   */
   describe("calculateGrossProfitMargin", () => {
     it("should calculate gross profit margin correctly", () => {
       const revenue = calculateRevenue(mockData);
@@ -112,6 +152,13 @@ describe("calculations", () => {
     });
   });
 
+  /**
+   * Tests for net profit margin calculation
+   * Verifies:
+   * - Correct calculation of the margin percentage
+   * - Error handling for zero revenue
+   * Formula tested: ((Revenue - Expenses) / Revenue) * 100
+   */
   describe("calculateNetProfitMargin", () => {
     it("should calculate net profit margin correctly", () => {
       const revenue = calculateRevenue(mockData);
@@ -129,11 +176,21 @@ describe("calculations", () => {
     });
   });
 
+  /**
+   * Tests for working capital ratio calculation
+   * Verifies:
+   * - Correct calculation of the ratio percentage
+   * - Error handling for zero liabilities
+   * Formula tested: (Current Assets / Current Liabilities) * 100
+   *
+   * Assets calculation: Debits - Credits
+   * Liabilities calculation: Credits - Debits
+   */
   describe("calculateWorkingCapitalRatio", () => {
     it("should calculate working capital ratio correctly", () => {
       const result = calculateWorkingCapitalRatio(mockData);
-      const assets = 2000 - 500; // 1500
-      const liabilities = 1000 - 200; // 800
+      const assets = 2000 - 500; // 1500 (debits - credits)
+      const liabilities = 1000 - 200; // 800 (credits - debits)
       expect(result).toBeCloseTo((assets / liabilities) * 100, 1); // (1500 / 800) * 100
     });
 
