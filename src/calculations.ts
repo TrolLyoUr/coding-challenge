@@ -21,11 +21,10 @@ export function calculateGrossProfitMargin(
   data: DataItem[],
   revenue: number
 ): number {
-  // Assume revenue can be zero if no data present.
-  // Return 0 if revenue = 0.
-
   if (revenue === 0) {
-    return 0;
+    throw new Error(
+      "Gross Profit Margin calculation is undefined: revenue is zero."
+    );
   }
 
   const salesTotal = sumByCondition(
@@ -39,10 +38,10 @@ export function calculateNetProfitMargin(
   revenue: number,
   expenses: number
 ): number {
-  // Assume revenue can be zero if no data present.
-  // Return 0 if revenue = 0.
   if (revenue === 0) {
-    return 0;
+    throw new Error(
+      "Net Profit Margin calculation is undefined: revenue is zero."
+    );
   }
 
   return ((revenue - expenses) / revenue) * 100;
@@ -90,10 +89,10 @@ export function calculateWorkingCapitalRatio(data: DataItem[]): number {
 
   const liabilities = liabilityCredits - liabilityDebits;
 
-  // If liabilities end up being zero after validation and data processing,
-  // return 0 to avoid division by zero.
   if (liabilities === 0) {
-    return 0;
+    throw new Error(
+      "Working Capital Ratio calculation is undefined: liabilities are zero."
+    );
   }
 
   return (assets / liabilities) * 100;
