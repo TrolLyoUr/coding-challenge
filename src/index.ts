@@ -1,6 +1,12 @@
 import { readFileSync } from "fs";
 import { join } from "path";
-import { calculateRevenue } from "./calculations";
+import {
+  calculateRevenue,
+  calculateExpenses,
+  calculateGrossProfitMargin,
+  calculateNetProfitMargin,
+  calculateWorkingCapitalRatio,
+} from "./calculations";
 import { formatCurrency, formatPercentage } from "./utils";
 import { DataItem } from "../types";
 
@@ -44,6 +50,14 @@ if (!validateData(data)) {
 
 // Perform calculations
 const revenue = calculateRevenue(data);
+const expenses = calculateExpenses(data);
+const gpm = calculateGrossProfitMargin(data, revenue);
+const npm = calculateNetProfitMargin(revenue, expenses);
+const wcr = calculateWorkingCapitalRatio(data);
 
 // Print results
 console.log(`Revenue: ${formatCurrency(revenue)}`);
+console.log(`Expenses: ${formatCurrency(expenses)}`);
+console.log(`Gross Profit Margin: ${formatPercentage(gpm)}`);
+console.log(`Net Profit Margin: ${formatPercentage(npm)}`);
+console.log(`Working Capital Ratio: ${formatPercentage(wcr)}`);
