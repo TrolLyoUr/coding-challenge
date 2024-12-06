@@ -5,9 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # TypeScript
-dist/                  # Output folder
-*.tsbuildinfo          # Build info files
-*.d.ts                 # Type declaration files generated during build
+dist/
 
 # Logs
 logs/
