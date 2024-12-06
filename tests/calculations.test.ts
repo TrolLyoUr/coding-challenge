@@ -95,4 +95,20 @@ describe("calculations", () => {
       expect(result).toBe(300); // Only one expense record
     });
   });
+
+  describe("calculateGrossProfitMargin", () => {
+    it("should calculate gross profit margin correctly", () => {
+      const revenue = calculateRevenue(mockData);
+      const result = calculateGrossProfitMargin(mockData, revenue);
+      expect(result).toBeCloseTo(66.7, 1); // (1000 / 1500) * 100
+    });
+
+    it("should throw an error when revenue is 0", () => {
+      expect(() => {
+        calculateGrossProfitMargin(mockDataWithZeroRevenue, 0);
+      }).toThrow(
+        "Gross Profit Margin calculation is undefined: revenue is zero."
+      );
+    });
+  });
 });
